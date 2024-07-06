@@ -11,14 +11,14 @@ const anecdotesAtStart = [
 
 const getId = () => (100000 * Math.random()).toFixed(0)
 
-const asObject = (anecdote) => {
+export const asObject = (anecdote) => {
   return {
+    type: 'NEW_ANECDOTE',
     content: anecdote,
     id: getId(),
     votes: 0
   }
 }
-
 
 export const voteAnecdote = (id) => {
     return {
@@ -33,7 +33,6 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
-
   switch (action.type) {
     case 'VOTE':
         const id = action.payload.id
@@ -41,11 +40,9 @@ const reducer = (state = initialState, action) => {
         const changedAnecdote = {...anecdoteToLike, votes: anecdoteToLike.votes+1}
         return state.map(a => a.id !== id ? a : changedAnecdote)
     case 'NEW_ANECDOTE':
-        return state
+        return state.concat(action)
     default: return state
   }
-
-  return state
 }
 
 export default reducer
