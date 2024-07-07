@@ -8,9 +8,11 @@ const getAll = async () => {
 }
 
 const createNew = async (content) => {
-    const object = { content, votes: 0 }
+    const object = { 
+            content,
+            votes: 0,
+            id: (100000 * Math.random()).toFixed(0) }
     const response = await axios.post(baseUrl, object)
-    console.log(response.data)
     return response.data
   }
 
