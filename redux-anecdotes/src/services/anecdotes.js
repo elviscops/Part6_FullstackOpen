@@ -16,4 +16,11 @@ const createNew = async (content) => {
     return response.data
   }
 
-export default { getAll, createNew }
+const updateLikes = async (anecdote) => {
+    
+    const response = await axios.put(`${baseUrl}/${anecdote.id}`, anecdote);
+    console.log(response)
+    return response.data;
+};
+
+export default { getAll, createNew, updateLikes }

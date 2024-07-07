@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { voteAnecdote } from '../reducers/anecdoteReducer'
+import { voteAnecdote, updateLikes } from '../reducers/anecdoteReducer'
 import { pushNotification, clearNotification } from '../reducers/notificationReducer'
 
 
@@ -19,7 +19,6 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const Anecdotes = () => {
   const anecdotes = useSelector( (state) =>  {
-            console.log(state)
             return state.anecdotes.filter((anecdote) => anecdote.content.includes(state.filter))})
 
   const dispatch = useDispatch()
@@ -33,7 +32,7 @@ const Anecdotes = () => {
             <Anecdote
                 key={anecdote.id}
                 anecdote={anecdote}
-                handleClick={ () => {dispatch(voteAnecdote(anecdote.id))
+                handleClick={ () => {dispatch(updateLikes({...anecdote,votes: anecdote.votes + 1}))
                                      dispatch(pushNotification(("Liked: " +anecdote.content)))
                                                     setTimeout(() => {
                                             dispatch(clearNotification())
