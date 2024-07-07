@@ -33,10 +33,10 @@ const Anecdotes = () => {
                 key={anecdote.id}
                 anecdote={anecdote}
                 handleClick={ () => {dispatch(updateLikes({...anecdote,votes: anecdote.votes + 1}))
-                                     dispatch(pushNotification(("Liked: " +anecdote.content)))
+                                     dispatch(pushNotification((`Liked: '${anecdote.content}'`)))
                                                     setTimeout(() => {
                                             dispatch(clearNotification())
-                                        }, 5 * 1000)
+                                        }, 5000)
                 }
                 }   
             /> 
