@@ -17,11 +17,10 @@ const Anecdote = ({ anecdote, handleClick }) => {
 }
 
 const Anecdotes = () => {
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector( state => state.anecdotes.filter(anecdote => anecdote.content.includes(state.filter)))
   const dispatch = useDispatch()
   return (
     <div>
-      <h2>Anecdotes</h2>
       <div>
         {
         anecdotes.map( anecdote => 
