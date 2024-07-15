@@ -7,17 +7,26 @@ const AnecdotesForm = () => {
 
     const newAnecdoteMutation = useMutation({ 
         mutationFn: createAnecdote, 
+        // onSuccess: (newAnecdote) => {
+        //     console.log(newAnecdote)
+        //     const anecdotes = queryClient.getQueryData('anecdotes')
+        //     queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
+        //     //queryClient.invalidateQueries('anecdotes')
+        // }, // manual updating querry
+        
+
         onSuccess: () => {
             queryClient.invalidateQueries('anecdotes')
-        },
+        }, // more recource intenstive solution
+              
     })
 
     const addAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
-        event.target.anecdote.value = ""
+        event.target.anecdote.value = ''
         newAnecdoteMutation.mutate({ content, votes: 0 })
-        console.log(content)
+        //console.log(content)
     
 
     }
