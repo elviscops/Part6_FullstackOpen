@@ -3,32 +3,29 @@ import { createAnecdote } from '../requests/requests'
 
 
 const AnecdotesForm = () => {
-    const queryClient = useQueryClient()
 
-    const newAnecdoteMutation = useMutation({ 
-        mutationFn: createAnecdote, 
-        // onSuccess: (newAnecdote) => {
-        //     console.log(newAnecdote)
-        //     const anecdotes = queryClient.getQueryData('anecdotes')
-        //     queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
-        //     //queryClient.invalidateQueries('anecdotes')
-        // }, // manual updating querry
-        
+    const queryClient = useQueryClient();
 
-        onSuccess: () => {
-            queryClient.invalidateQueries('anecdotes')
-        }, // more recource intenstive solution
-              
-    })
+
+    const newAnecdoteMutation = useMutation({
+        mutationFn: createAnecdote,
+        // onSuccess: () => {
+        // queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+        // }, // less effiecient
+        onSuccess: (newAnecdote) => {
+            const anecdotes = queryClient.getQueryData(['anecdotes'])
+            console.log(anecdotes)
+            queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
+            queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+        }, // manual updating querry
+    });
+    
 
     const addAnecdote = async (event) => {
         event.preventDefault()
         const content = event.target.anecdote.value
-        event.target.anecdote.value = ''
-        newAnecdoteMutation.mutate({ content, votes: 0 })
-        //console.log(content)
-    
-
+        newAnecdoteMutation.mutate({ content: content, votes: 0 })
+        event.target.anecdote.value = ""
     }
 
     return (

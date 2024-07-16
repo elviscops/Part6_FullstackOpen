@@ -5,7 +5,6 @@ import AnecdoteForm from './conponents/AnecdotesForm'
 const App = () => {
 
     const voteAnecdote = (anecdote) => {
-        console.log('vote')
         newAnecdoteVoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
     }
 
@@ -17,13 +16,11 @@ const App = () => {
             queryClient.invalidateQueries('anecdotes')
         },
     })
-
     
     const result = useQuery({
             queryKey:['anecdotes'],
             queryFn: getAnecdotes,
-            retry:1,
-            refetchOnWindowFocus: false
+            retry:false,
     })
     
     

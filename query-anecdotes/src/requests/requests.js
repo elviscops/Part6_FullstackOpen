@@ -1,11 +1,18 @@
 import axios from 'axios'
 
-export const getAnecdotes = () =>
-  axios.get('http://localhost:3001/anecdotes').then(res => res.data)
+const baseUrl = 'http://localhost:3001/anecdotes'
 
-export const createAnecdote = newAnecdote => {
-    axios.post('http://localhost:3001/anecdotes', newAnecdote).then(res => res.data)
+export const getAnecdotes = async () => {
+    const response = await axios.get(baseUrl);
+    return response.data;
+  };
+
+export const createAnecdote =  async (newAnecdote) => {
+    const response = await axios.post(baseUrl, newAnecdote)
+    return response.data
 }
 
-export const updateAnecdote = updateAnecdote =>
-    axios.put(`http://localhost:3001/anecdotes/${updateAnecdote.id}`, updateAnecdote).then(res => res.data)
+export const updateAnecdote = async (updateAnecdote) => {
+    const response = await axios.put(`http://localhost:3001/anecdotes/${updateAnecdote.id}`, updateAnecdote)
+    return response.data
+}
