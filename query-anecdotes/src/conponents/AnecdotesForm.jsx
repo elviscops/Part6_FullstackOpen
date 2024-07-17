@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createAnecdote } from '../requests/requests'
+import { useMessageDispatch } from '../messageContext'
 
 
 const AnecdotesForm = () => {
 
     const queryClient = useQueryClient();
+    const { showNotification } = useMessageDispatch()
 
 
     const newAnecdoteMutation = useMutation({
@@ -14,9 +16,9 @@ const AnecdotesForm = () => {
         // }, // less effiecient
         onSuccess: (newAnecdote) => {
             const anecdotes = queryClient.getQueryData(['anecdotes'])
-            console.log(anecdotes)
             queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
             queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+            showNotification(`created '${newAnecdote.content}'`)
         }, // manual updating querry
     });
     
