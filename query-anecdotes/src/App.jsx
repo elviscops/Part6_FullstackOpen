@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { getAnecdotes, updateAnecdote } from './requests/requests'
+import { deleteAnecdote, getAnecdotes, updateAnecdote } from './requests/requests'
 import AnecdoteForm from './conponents/AnecdotesForm'
 import Notification from './conponents/Notification'
 import { useMessageDispatch } from './messageContext'
@@ -12,12 +12,26 @@ const App = () => {
         newAnecdoteVoteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
         showNotification(`voted '${anecdote.content}'`)
     }
+    const handleDeleteAnecdote = (anecdote) => {
+        newAnecdoteDeleteMutation.mutate({ ...anecdote })
+        showNotification(`deleted '${anecdote.content}'`)
+    }
 
     const newAnecdoteVoteMutation = useMutation({ 
         mutationFn: updateAnecdote, 
         onSuccess: () => {
             queryClient.invalidateQueries('anecdotes')
         },
+    })
+
+    const newAnecdoteDeleteMutation = useMutation({ 
+        mutationFn: deleteAnecdote,
+        onSuccess: (newAnecdote) => {
+            const anecdotes = queryClient.getQueryData(['anecdotes'])
+            queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
+            queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
+            showNotification(`deleted '${newAnecdote.content}'`)
+        }, // manual updating querry
     })
     
     const result = useQuery({
@@ -52,6 +66,7 @@ const App = () => {
                 <div>
                     has {anecdote.votes}
                     <button onClick={() => voteAnecdote(anecdote)}>vote</button>
+                    <button onClick={() => handleDeleteAnecdote(anecdote)}>delete</button>
                 </div>
             </div>
             )}

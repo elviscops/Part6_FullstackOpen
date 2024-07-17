@@ -16,3 +16,7 @@ export const updateAnecdote = async (updateAnecdote) => {
     const response = await axios.put(`http://localhost:3001/anecdotes/${updateAnecdote.id}`, updateAnecdote)
     return response.data
 }
+
+export const deleteAnecdote = (deleteAnecdote) => {
+    axios.delete(`http://localhost:3001/anecdotes/${deleteAnecdote.id}`)
+}

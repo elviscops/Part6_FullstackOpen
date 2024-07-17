@@ -20,6 +20,9 @@ const AnecdotesForm = () => {
             queryClient.invalidateQueries({ queryKey: ["anecdotes"] });
             showNotification(`created '${newAnecdote.content}'`)
         }, // manual updating querry
+        onError: (error) => {
+            showNotification(`tried creating, but content too short-'${error}'`)
+        }, // manual updating querry
     });
     
 

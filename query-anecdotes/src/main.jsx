@@ -9,11 +9,9 @@ const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <QueryClientProvider client={queryClient}>
-    <MessageContextProvider>
-        <App />
-    </MessageContextProvider>
-      
-
+        <MessageContextProvider>
+            <App />
+        </MessageContextProvider>
     </QueryClientProvider>
     
   )
